@@ -11,24 +11,23 @@ from tf.transformations import quaternion_from_euler
 
 def create_quaternion(goal_num):
 
-	# read euler from param and transfer it
-	x = rospy.get_param("/move_base/goals/goal_"+str(goal_num+1)+"/X")
-	y = rospy.get_param("/move_base/goals/goal_"+str(goal_num+1)+"/Y")
-	theta = np.radians(rospy.get_param("/move_base/goals/goal_"+str(goal_num+1)+"/theta"))
-	print(rospy.get_param("/move_base/goals/goal_"+str(goal_num+1)+"/theta"))
-	quaternion = quaternion_from_euler(x, y, theta)
-	return quaternion
+	# read position & orientation(euler) from param and transfer them
+	x = rospy.get_param("/neo_goal_sequence_driver/goals/goal_"+str(goal_num+1)+"/X")
+	y = rospy.get_param("/neo_goal_sequence_driver/goals/goal_"+str(goal_num+1)+"/Y")
+	theta = np.radians(rospy.get_param("/neo_goal_sequence_driver/goals/goal_"+str(goal_num+1)+"/theta"))
+	quaternion = quaternion_from_euler(0, 0, theta)
+	return [x, y, quaternion]
 
-def create_goal(q):
+def create_goal(pose):
 
-	# create goal from quaternion data
+	# create goal from position & orientation(quaternion)
 	goal = MoveBaseGoal()
 	goal.target_pose.header.frame_id = "map"
 	goal.target_pose.header.stamp = rospy.Time.now()
-	goal.target_pose.pose.position.x = q[0]
-	goal.target_pose.pose.position.y = q[1]
-	goal.target_pose.pose.orientation.z = q[2]
-	goal.target_pose.pose.orientation.w = q[3]
+	goal.target_pose.pose.position.x = pose[0]
+	goal.target_pose.pose.position.y = pose[1]
+	goal.target_pose.pose.orientation.z = pose[2][2]
+	goal.target_pose.pose.orientation.w = pose[2][3]
 	return goal
 
 
@@ -42,8 +41,8 @@ if __name__ == '__main__':
 
 	for i in range(3):
 	
-		quaternion = create_quaternion(i)
-		goal = create_goal(quaternion)
+		pose = create_quaternion(i)
+		goal = create_goal(pose)
 		client.send_goal(goal)
 		while(True):
 			
