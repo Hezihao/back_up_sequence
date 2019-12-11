@@ -37,22 +37,25 @@ if __name__ == '__main__':
 	client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 	if(client.wait_for_server()):
 
-		print("Client server up.")
+		rospy.loginfo("Client server up.")
+	i = 0
+	while(True):
 
-	for i in range(3):
+		try:
 	
-		pose = create_quaternion(i)
+			pose = create_quaternion(i)
+		except:
+
+			rospy.loginfo("All goals reached, sequence drive task completed.")
+			break
 		goal = create_goal(pose)
 		client.send_goal(goal)
 		while(True):
 			
 			if(client.wait_for_result(rospy.Duration.from_sec(5.0)) == True):
 
-				print("Goal reached.")
+				rospy.loginfo("Goal reached.")
 				# just for test
 				time.sleep(2)
 				break
-		
-		if(i == 2):
-			
-			print("All goals reached, sequence drive task completed.")
+		i += 1
