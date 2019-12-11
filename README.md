@@ -9,8 +9,8 @@
 
 3. For testing, please:
 	
-	1) run .../neo_simulation/simulation.launch;
-	2) run .../neo_goal_sequence_driver/launch/neo_goal_sequence_driver.launch;
+	a) run .../neo_simulation/simulation.launch;
+	b) run .../neo_goal_sequence_driver/launch/neo_goal_sequence_driver.launch;
 	   (The robot should be moving along the sequence.)
-	3) manipulate goals in .../neo_goal_sequence_driver/config/goal_list.yaml;
-	4) turn to 2) and repeat if you want to;
+	c) manipulate goals in .../neo_goal_sequence_driver/config/goal_list.yaml;
+	d) turn to b) and repeat if you want to;
