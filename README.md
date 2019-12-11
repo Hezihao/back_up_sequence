@@ -1,6 +1,6 @@
 # neo_goal_sequence_driver
 
-##It's a package for testing basic functionalities of navigation stack.
+## It's a package for testing basic functionalities of navigation stack.
 
 
 1. Currently tested on MP-500 under neo_track1.world, and it's working fine;
