@@ -1,0 +1,5 @@
+string switch
+string infi_param
+uint8 patience
+---
+string message
