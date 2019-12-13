@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="switch" default="up" />
+	<arg name="infi_param" default="False" />
+	<arg name="patience" default="5" />
+	<node pkg="neo_goal_sequence_driver" type="goal_sequence_driver_client.py" name="neo_goal_sequence_driver" output="screen"  args="$(arg switch) $(arg infi_param) $(arg patience)">
+		<rosparam command="delete" param="/neo_goal_sequence_driver/goals" />
+		<rosparam file="$(find neo_goal_sequence_driver)/config/goal_list.yaml" command="load" />
+	</node>
+</launch>

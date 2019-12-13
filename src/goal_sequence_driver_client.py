@@ -2,10 +2,16 @@
 
 import sys
 import rospy
+import rospkg
+import rosparam
 
-from pyyaml 
 from neo_goal_sequence_driver.srv import *
 
+# path of goal_list.yaml file
+rospack = rospkg.RosPack()
+goal_list = rospack.get_path('neo_goal_sequence_driver') + '/config/goal_list.yaml'
+
+# client of the service
 def goal_sequence_driver_client(switch, infi_param, patience):
 
 	rospy.wait_for_service('goal_sequence_driver')
@@ -17,14 +23,29 @@ def goal_sequence_driver_client(switch, infi_param, patience):
 
 		print("Service call failed: %s"%e)
 
+# load goal list from .yaml
+'''
+def yaml_to_rosparam(file):
+
+	yaml = rosparam.load_file(file)
+'''
+
 if __name__ == "__main__":
 
-	if(len(sys.argv) == 4):
-	
+	if (len(sys.argv) == 4) or ((len(sys.argv) == 6) and sys.argv[4] == '__name:=neo_goal_sequence_driver'):
+
 		switch = str(sys.argv[1])
 		infi_param = str(sys.argv[2])
 		patience = int(sys.argv[3])
-		goal_sequence_driver_client(switch, infi_param, patience)
+		try:
+		
+			goal_sequence_driver_client(switch, infi_param, patience)
+		except:
+
+			print("goal_sequence_driver_client is down.")
+			rospy.loginfo("goal_sequence_driver_client is down.")
+
 	else:
 
 			print("Unknown command type, please use e.g. 'up False 5'.")
+			print(sys.argv)
