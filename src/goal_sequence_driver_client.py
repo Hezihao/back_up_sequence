@@ -12,12 +12,12 @@ rospack = rospkg.RosPack()
 goal_list = rospack.get_path('neo_goal_sequence_driver') + '/config/goal_list.yaml'
 
 # client of the service
-def goal_sequence_driver_client(switch, infi_param, patience):
+def goal_sequence_driver_client(switch, infi_param, print_option, patience):
 
 	rospy.wait_for_service('goal_sequence_driver')
 	try:
 		gsd = rospy.ServiceProxy('goal_sequence_driver', command)
-		resp = gsd(switch, infi_param, patience)
+		resp = gsd(switch, infi_param, print_option, patience)
 		return resp.message
 	except rospy.ServiceException, e:
 
@@ -32,14 +32,15 @@ def yaml_to_rosparam(file):
 
 if __name__ == "__main__":
 
-	if (len(sys.argv) == 4) or ((len(sys.argv) == 6) and sys.argv[4] == '__name:=neo_goal_sequence_driver'):
+	if (len(sys.argv) == 5) or ((len(sys.argv) == 7) and sys.argv[5] == '__name:=neo_goal_sequence_driver'):
 
 		switch = str(sys.argv[1])
 		infi_param = str(sys.argv[2])
-		patience = int(sys.argv[3])
+		print_option = str(sys.argv[3])
+		patience = int(sys.argv[4])
 		try:
 		
-			goal_sequence_driver_client(switch, infi_param, patience)
+			goal_sequence_driver_client(switch, infi_param, print_option, patience)
 		except:
 
 			print("goal_sequence_driver_client is down.")

@@ -7,4 +7,8 @@
 		<rosparam file="$(find neo_goal_sequence_driver)/config/goal_list.yaml" command="load" />
 		<-->
 	</node>
+	<!-->
+	<node pkg="neo_goal_sequence_driver" type="goal_sequence_driver_odom.py" name="neo_goal_sequence_driver_odom" output="screen">
+	</node>
+	<-->
 </launch>

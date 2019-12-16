@@ -1,5 +1,6 @@
 string switch
 string infi_param
+string print_option
 uint8 patience
 ---
 string message
